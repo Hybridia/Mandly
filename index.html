@@ -1,0 +1,286 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Mandly Privacy</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap">
+<style>
+/* Layout: one reading column, a language switch at the top, plain sections; the app's teal-to-blue as the only accent. */
+:root {
+  --bg: #F3F6FB;
+  --card: #FFFFFF;
+  --ink: #0F1A2E;
+  --sub: #4C5A73;
+  --line: #DCE3EE;
+  --accent: #2563C9;
+  --accent2: #1F8F7A;
+  --chip: #E6EEFA;
+  --display: "Plus Jakarta Sans", ui-rounded, system-ui, -apple-system, sans-serif;
+  --body: "Plus Jakarta Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0B1220; --card: #131C2E; --ink: #EAF0FA; --sub: #A3B0C7; --line: #24304A;
+    --accent: #7FB0FF; --accent2: #5FD3B7; --chip: #1B2740; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0B1220; --card: #131C2E; --ink: #EAF0FA; --sub: #A3B0C7; --line: #24304A;
+  --accent: #7FB0FF; --accent2: #5FD3B7; --chip: #1B2740; color-scheme: dark;
+}
+body {
+  background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 16px; line-height: 1.6;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 32px 64px;
+}
+main { max-width: 680px; margin: 0 auto; display: flex; flex-direction: column; gap: 28px; }
+header { display: flex; flex-direction: column; gap: 14px; }
+.brand { display: flex; align-items: center; gap: 12px; }
+.mark {
+  width: 44px; height: 44px; border-radius: 12px; flex: none;
+  background: linear-gradient(135deg, var(--accent2), var(--accent));
+  display: grid; place-items: center;
+}
+.mark svg { width: 24px; height: 24px; }
+.brand span { font-weight: 800; font-size: 15px; letter-spacing: .02em; color: var(--sub); }
+h1 { font-family: var(--display); font-size: clamp(30px, 6vw, 40px); line-height: 1.1; margin: 0; letter-spacing: -0.02em; text-wrap: balance; }
+.meta { color: var(--sub); font-size: 14px; margin: 0; }
+.switch { display: inline-flex; background: var(--chip); border-radius: 12px; padding: 4px; gap: 4px; align-self: flex-start; }
+.switch button {
+  font: 700 14px var(--body); color: var(--sub); background: transparent; border: 0; border-radius: 9px;
+  padding: 8px 16px; cursor: pointer;
+}
+.switch button[aria-pressed="true"] { background: var(--card); color: var(--ink); box-shadow: 0 1px 3px rgba(15, 26, 46, .12); }
+.switch button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.summary {
+  background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 20px 22px;
+  display: flex; flex-direction: column; gap: 10px;
+}
+.summary p { margin: 0; font-weight: 600; }
+.summary ul { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 6px; }
+section { display: flex; flex-direction: column; gap: 8px; }
+h2 { font-family: var(--display); font-size: 20px; margin: 0; letter-spacing: -0.01em; text-wrap: balance; }
+p { margin: 0; max-width: 65ch; }
+ul.plain { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 6px; max-width: 65ch; }
+.label { font-size: 12px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+table { border-collapse: collapse; width: 100%; font-size: 15px; }
+.tablewrap { overflow-x: auto; background: var(--card); border: 1px solid var(--line); border-radius: 14px; }
+th, td { text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
+tr:last-child td { border-bottom: 0; }
+th { font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--sub); font-weight: 800; }
+a { color: var(--accent); font-weight: 600; text-underline-offset: 2px; overflow-wrap: anywhere; }
+footer { color: var(--sub); font-size: 14px; border-top: 1px solid var(--line); padding-top: 16px; }
+@media (prefers-reduced-motion: no-preference) { .switch button { transition: background .15s, color .15s; } }
+[hidden] { display: none !important; }
+</style>
+</head>
+<body>
+
+<main>
+  <header>
+    <div class="brand">
+      <div class="mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h2l2.4 11h10.2L20 8H6.2"/><circle cx="9.5" cy="19.5" r="1.3" fill="#FFFFFF"/><circle cx="16.5" cy="19.5" r="1.3" fill="#FFFFFF"/></svg>
+      </div>
+      <span>Mandly</span>
+    </div>
+    <div class="switch" role="group" aria-label="Taal / Language">
+      <button id="btn-nl" type="button" aria-pressed="true">Nederlands</button>
+      <button id="btn-en" type="button" aria-pressed="false">English</button>
+    </div>
+  </header>
+
+  <!-- ============ NEDERLANDS ============ -->
+  <article id="nl" lang="nl" style="display:flex;flex-direction:column;gap:28px">
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <h1>Privacybeleid</h1>
+      <p class="meta">Laatst bijgewerkt: 17 oktober 2026</p>
+    </div>
+
+    <div class="summary">
+      <p>In het kort</p>
+      <ul>
+        <li>Je lijsten, items en foto's staan in jouw eigen iCloud, niet bij ons.</li>
+        <li>Geen account, geen reclame, geen tracking, geen analysetools.</li>
+        <li>Je locatie blijft op je telefoon.</li>
+        <li>Alleen voor meldingen aan wie je deelt, staat kort een klein bericht in iCloud (zie hieronder).</li>
+      </ul>
+    </div>
+
+    <section>
+      <h2>Wie we zijn</h2>
+      <p>Mandly is een boodschappenlijst-app voor iPhone, gemaakt door Ram Steenhaut. Vragen over privacy kun je sturen naar <a href="mailto:tha_ultima@hotmail.com">tha_ultima@hotmail.com</a>.</p>
+    </section>
+
+    <section>
+      <h2>Waar je gegevens staan</h2>
+      <p>Alles wat je in de app maakt (lijsten, items, aantallen, notities, foto's, gekozen winkels, je voornaam) wordt bewaard op je iPhone en in je eigen iCloud-account via Apple CloudKit. Wij kunnen die gegevens niet inzien. Apple bewaart ze volgens het privacybeleid van Apple.</p>
+      <p>Deel je lijsten met familie, dan staan de gedeelde lijsten in de iCloud van de persoon die het delen startte. Iedereen die meedoet, ziet en wijzigt dezelfde lijsten en ziet je voornaam bij wat jij toevoegt of wijzigt. Je kunt delen op elk moment stoppen in Instellingen → Delen met familie.</p>
+    </section>
+
+    <section>
+      <h2>Meldingen aan wie je deelt</h2>
+      <p>Als je een gedeelde lijst wijzigt of begint met winkelen, krijgen de anderen een melding. Daarvoor zet de app een klein bericht in het openbare deel van de iCloud-opslag van Mandly. Dat bericht bevat:</p>
+      <ul class="plain">
+        <li>je voornaam zoals je die in de app invulde;</li>
+        <li>de naam van de lijst en soms van een item (bijvoorbeeld "Ram heeft Melk op Weekboodschappen gezet");</li>
+        <li>een willekeurige code voor je gedeelde groep en voor jou, zodat alleen jullie toestellen de melding krijgen.</li>
+      </ul>
+      <p>Per persoon blijft alleen het laatste bericht staan; elk nieuw bericht vervangt het vorige. Deze berichten worden alleen gebruikt om de melding te tonen, nooit voor reclame of analyse. Als ontwikkelaar kunnen we ze technisch inzien in de CloudKit-beheeromgeving van Apple, maar we doen dat niet.</p>
+    </section>
+
+    <section>
+      <h2>Toestemmingen</h2>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>Toestemming</th><th>Waarvoor</th></tr></thead>
+          <tbody>
+            <tr><td>Meldingen</td><td>Herinneringen voor je boodschappendag en meldingen van wie met je deelt.</td></tr>
+            <tr><td>Locatie (tijdens gebruik)</td><td>Je positie op de kaart als je een winkel kiest, en hoe ver je winkels zijn tijdens het winkelen. Blijft op je telefoon.</td></tr>
+            <tr><td>Foto's</td><td>Alleen de foto die jij kiest, bij een item. Die gaat naar je eigen iCloud.</td></tr>
+            <tr><td>Camera</td><td>Alleen om een QR-code te scannen. Er wordt niets opgenomen of bewaard.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Al deze toestemmingen zijn optioneel. Je kunt ze wijzigen in de app Instellingen van je iPhone.</p>
+    </section>
+
+    <section>
+      <h2>Wat we niet doen</h2>
+      <ul class="plain">
+        <li>Geen account of registratie.</li>
+        <li>Geen reclame en geen code van reclame- of analysebedrijven.</li>
+        <li>Geen tracking over apps of websites heen.</li>
+        <li>Geen verkoop of doorgifte van gegevens aan anderen.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Kopie via QR-code</h2>
+      <p>Met "Kopie van lijsten sturen" maakt de app een QR-code met de gekozen lijsten. Die code gaat nergens heen: alleen wie de code scant, krijgt een kopie. Foto's zitten er niet in.</p>
+    </section>
+
+    <section>
+      <h2>Je gegevens verwijderen</h2>
+      <p>Verwijder lijsten in de app, of verwijder de app. Je iCloud-gegevens van Mandly wis je via Instellingen → [je naam] → iCloud → Opslag beheren → Mandly. Stop je met delen, dan verdwijnen de gedeelde lijsten van de andere telefoons. Een melding in het openbare deel wordt bij je volgende melding vervangen; wil je dat we die meteen wissen, mail ons dan.</p>
+    </section>
+
+    <section>
+      <h2>Kinderen</h2>
+      <p>Mandly is niet speciaal voor kinderen gemaakt en verzamelt niet bewust gegevens van kinderen.</p>
+    </section>
+
+    <section>
+      <h2>Wijzigingen</h2>
+      <p>Als dit beleid verandert, passen we de datum bovenaan aan. Bij belangrijke wijzigingen vermelden we dat ook in de app-update.</p>
+    </section>
+  </article>
+
+  <!-- ============ ENGLISH ============ -->
+  <article id="en" lang="en" style="display:flex;flex-direction:column;gap:28px" hidden>
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <h1>Privacy Policy</h1>
+      <p class="meta">Last updated: 17 October 2026</p>
+    </div>
+
+    <div class="summary">
+      <p>In short</p>
+      <ul>
+        <li>Your lists, items and photos live in your own iCloud, not with us.</li>
+        <li>No account, no ads, no tracking, no analytics.</li>
+        <li>Your location stays on your phone.</li>
+        <li>Only to notify the people you share with, a small message is kept in iCloud for a short time (see below).</li>
+      </ul>
+    </div>
+
+    <section>
+      <h2>Who we are</h2>
+      <p>Mandly is a shopping-list app for iPhone, made by Ram Steenhaut. Send privacy questions to <a href="mailto:tha_ultima@hotmail.com">tha_ultima@hotmail.com</a>.</p>
+    </section>
+
+    <section>
+      <h2>Where your data lives</h2>
+      <p>Everything you create in the app (lists, items, amounts, notes, photos, chosen shops, your first name) is stored on your iPhone and in your own iCloud account through Apple CloudKit. We can't see it. Apple stores it under Apple's privacy policy.</p>
+      <p>If you share your lists with family, the shared lists live in the iCloud of the person who started the sharing. Everyone who joins sees and changes the same lists, and sees your first name next to what you add or change. You can stop sharing at any time in Settings → Share with family.</p>
+    </section>
+
+    <section>
+      <h2>Notifications to the people you share with</h2>
+      <p>When you change a shared list or start shopping, the others get a notification. To send it, the app saves a small message in the public part of Mandly's iCloud storage. That message contains:</p>
+      <ul class="plain">
+        <li>your first name as you entered it in the app;</li>
+        <li>the name of the list and sometimes of an item (for example "Ram added Milk to Weekly groceries");</li>
+        <li>a random code for your sharing group and for you, so only your group's devices get the notification.</li>
+      </ul>
+      <p>Only the latest message per person is kept; each new one replaces the previous one. These messages are used only to show the notification, never for ads or analytics. As the developer we can technically see them in Apple's CloudKit dashboard, but we don't look at them.</p>
+    </section>
+
+    <section>
+      <h2>Permissions</h2>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>Permission</th><th>What for</th></tr></thead>
+          <tbody>
+            <tr><td>Notifications</td><td>Reminders for your shopping day, and notifications from the people you share with.</td></tr>
+            <tr><td>Location (while using)</td><td>Your position on the map when you pick a shop, and how far your shops are while shopping. Stays on your phone.</td></tr>
+            <tr><td>Photos</td><td>Only the photo you pick, attached to an item. It goes to your own iCloud.</td></tr>
+            <tr><td>Camera</td><td>Only to scan a QR code. Nothing is recorded or kept.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>All of these are optional. You can change them in your iPhone's Settings app.</p>
+    </section>
+
+    <section>
+      <h2>What we don't do</h2>
+      <ul class="plain">
+        <li>No account or sign-up.</li>
+        <li>No ads and no code from advertising or analytics companies.</li>
+        <li>No tracking across apps or websites.</li>
+        <li>No selling or passing on of data to anyone.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Copies by QR code</h2>
+      <p>"Send a copy of lists" makes a QR code with the lists you choose. The code isn't sent anywhere: only whoever scans it gets a copy. Photos aren't included.</p>
+    </section>
+
+    <section>
+      <h2>Deleting your data</h2>
+      <p>Delete lists in the app, or delete the app. To erase Mandly's iCloud data, go to Settings → [your name] → iCloud → Manage Storage → Mandly. If you stop sharing, the shared lists disappear from the other phones. A notification message in the public part is replaced by your next one; email us if you want it erased right away.</p>
+    </section>
+
+    <section>
+      <h2>Children</h2>
+      <p>Mandly isn't made specifically for children and doesn't knowingly collect data from children.</p>
+    </section>
+
+    <section>
+      <h2>Changes</h2>
+      <p>If this policy changes, we update the date at the top. Important changes are also mentioned in the app update.</p>
+    </section>
+  </article>
+
+  <footer>Mandly · Ram Steenhaut · <a href="mailto:tha_ultima@hotmail.com">tha_ultima@hotmail.com</a></footer>
+</main>
+
+<script>
+(function () {
+  var nl = document.getElementById('nl'), en = document.getElementById('en');
+  var bnl = document.getElementById('btn-nl'), ben = document.getElementById('btn-en');
+  function show(lang) {
+    var isNl = lang === 'nl';
+    nl.hidden = !isNl; en.hidden = isNl;
+    bnl.setAttribute('aria-pressed', String(isNl)); ben.setAttribute('aria-pressed', String(!isNl));
+    document.documentElement.lang = lang;
+  }
+  bnl.addEventListener('click', function () { show('nl'); });
+  ben.addEventListener('click', function () { show('en'); });
+  var start = (location.hash === '#en' || (location.hash !== '#nl' && !(navigator.language || '').toLowerCase().startsWith('nl'))) ? 'en' : 'nl';
+  show(start);
+})();
+</script>
+</body>
+</html>
